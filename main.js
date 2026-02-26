@@ -2,44 +2,54 @@ const API_KEY = 'b62c99bab821449d96d2bb258fbb183c';
 let newsList = [];
 const menus = document.querySelectorAll('.menus button');
 menus.forEach(menu=> menu.addEventListener('click', (event) =>getNewsByCategory(event)));
+  
+let url = new URL(
+    `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&apiKey=${API_KEY}`
+);
 
-
-const getLatestNews = async () => {
-    const url = new URL(
-        `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&apiKey=${API_KEY}`
-    );
+const getNews = async () => {
+    try {
     const response = await fetch(url);
+    
     const data = await response.json();
+    if(response.status === 200){
+      if(data.articles.length === 0){
+          throw new Error("검색된 결과가 없습니다.");
+    }
     newsList = data.articles;
     render();
-    console.log("dddd", newsList);
+    }else{
+        throw new Error(data.message);
+    }
+    }catch(error){
+     errorRender(error.message);
+    }
+};
+
+const getLatestNews = async () => {
+     url = new URL(
+        `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&apiKey=${API_KEY}`
+    );
+   getNews();
 };
 
 const getNewsByCategory = async (event) => {
     const category = event.target.textContent.toLowerCase();
-    console.log("category", category);
-    const url = new URL(
+    url = new URL(
         `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&category=${category}&apiKey=${API_KEY}`
     );
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log("data", data);
-    newsList = data.articles;
-    render();
+   getNews();
 }
 
 const getNewsByKeyword= async ()=>{
     const keyword = document.getElementById("search-input").value;
     console.log("keyword", keyword);
-    const url = new URL
+    url = new URL
        (`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&q=${keyword}&apiKey=${API_KEY}`);
-    const response = await fetch(url); 
-    const data = await response.json();
-    console.log("data", data);
-    newsList = data.articles;
-    render();
-
+    getNews();
     }
+
+window.getNewsByKeyword = getNewsByKeyword;
 
 
 document.getElementById("search-input").addEventListener("keydown", (event) => {
@@ -75,6 +85,24 @@ const render = () => {
 
     document.getElementById('news-board').innerHTML = newsHTML;
 };
+
+// 엔터키 이벤트 리스너 추가
+document.getElementById("search-input").addEventListener("keydown", (event) => {
+    // 1. 누른 키가 'Enter'인지 확인
+    if (event.key === "Enter") {
+        // 2. 검색 함수 실행
+        getNewsByKeyword();
+    }
+});
+
+const errorRender = (errorMessage) =>{
+    const errorHTML = `<div class="alert alert-danger" role="alert">
+    ${errorMessage}
+    </div>`;
+
+    document.getElementById("news-board").innerHTML = errorHTML;
+}
+
 getLatestNews();
 
 //1. 버튼들에 클릭 이벤트를 줘야 한다
