@@ -54,7 +54,7 @@ document.getElementById("search-input").addEventListener("keydown", (event) => {
 const render = () => {
     const newsHTML = newsList.map((news) => {
         // 1. 이미지가 null일 때 사용할 백업 주소
-        `<div class="row news">
+        return `<div class="row news">
             <div class="col-lg-4">
                 <img class="news-image-size" 
                      src="${news.urlToImage}"/>
@@ -68,7 +68,7 @@ const render = () => {
                     ${news.source.name} ${news.publishedAt}
                 </div>
             </div>
-        </div>`
+        </div>`;
     }).join('');
     
     console.log("html", newsHTML);
