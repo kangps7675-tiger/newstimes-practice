@@ -50,27 +50,28 @@ document.getElementById("search-input").addEventListener("keydown", (event) => {
     }
 });
 
+
 const render = () => {
     const newsHTML = newsList.map((news) => {
         // 1. 이미지가 null일 때 사용할 백업 주소
-        const imgUrl = news.urlToImage || "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
-
-        return `<div class="row news">
+        `<div class="row news">
             <div class="col-lg-4">
                 <img class="news-image-size" 
-                     src="${imgUrl}" 
-                     onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';" 
-                     alt="News Image"/>
+                     src="${news.urlToImage}"/>
             </div>
             <div class="col-lg-8">
                 <h2>${news.title}</h2>
-                <p>${news.description || "내용 없음"}</p>
+                <p>
+                ${news.description}
+                </p>
                 <div>
-                    ${news.source.name || "Unknown"} ${news.publishedAt}
+                    ${news.source.name} ${news.publishedAt}
                 </div>
             </div>
-        </div>`;
+        </div>`
     }).join('');
+    
+    console.log("html", newsHTML);
 
     document.getElementById('news-board').innerHTML = newsHTML;
 };
