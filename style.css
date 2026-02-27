@@ -79,3 +79,85 @@ button[onclick="getNewsByKeyword()"] {
     margin-left: 5px;
     cursor: pointer;
 }
+
+nav .pagination {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+@media (max-width: 992px) {
+  .head-line svg {
+    width: 320px;
+  }
+
+  .news {
+    padding: 20px 0;
+  }
+
+  .news-image-size {
+    height: 220px;
+  }
+
+  #search-input {
+    width: 170px;
+  }
+
+  #search-input:focus {
+    width: 210px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .menus {
+    justify-content: flex-start;
+    padding: 8px 6px;
+    gap: 4px;
+  }
+
+  .menus button {
+    margin: 4px 8px;
+    font-size: 0.95rem;
+  }
+
+  /* 현재 .news가 display:flex 이므로 모바일에서는 세로 정렬 */
+  .news {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 0;
+  }
+
+  .news-image-size {
+    height: 200px;
+    margin-bottom: 12px;
+  }
+
+  .col-lg-8 h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  #search-input,
+  #search-input:focus {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  button[onclick="getNewsByKeyword()"] {
+    margin-left: 0;
+    margin-top: 8px;
+    width: 100%;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .head-line svg {
+    width: 240px;
+  }
+
+  .news-image-size {
+    height: 170px;
+  }
+}
