@@ -53,11 +53,17 @@ const getNewsByCategory = async (event) => {
 }
 
 const getNewsByKeyword= async ()=>{
-    const keyword = document.getElementById("search-input").value;
+    const searchInput = document.getElementById("search-input");
+    const keyword = searchInput.value;
     console.log("keyword", keyword);
+    if(!keyword || keyword.trim() === ""){
+        return alert("검색어를 입력해주세요.");
+    }
+    page = 1;
     url = new URL
        (`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&q=${keyword}&apiKey=${API_KEY}`);
-    getNews();
+       getNews();
+       searchInput.value = "";
     }
 
 window.getNewsByKeyword = getNewsByKeyword;
@@ -96,15 +102,6 @@ const render = () => {
 
     document.getElementById('news-board').innerHTML = newsHTML;
 };
-
-// 엔터키 이벤트 리스너 추가
-document.getElementById("search-input").addEventListener("keydown", (event) => {
-    // 1. 누른 키가 'Enter'인지 확인
-    if (event.key === "Enter") {
-        // 2. 검색 함수 실행
-        getNewsByKeyword();
-    }
-});
 
 const errorRender = (errorMessage) =>{
     const errorHTML = `<div class="alert alert-danger" role="alert">
