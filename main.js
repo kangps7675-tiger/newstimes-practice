@@ -134,9 +134,15 @@ const paginationRender = () => {
        lastPage - (groupSize - 1)<=0? 1 : lastPage - (groupSize - 1);
     
    // 1. 화살표 버튼들을 담을 변수 시작
-    let paginationHTML = `
-        <li class="page-item" onclick="moveToPage(1)"><a class="page-link">&lt;&lt;</a></li>
-        <li class="page-item" onclick="moveToPage(${page > 1 ? page - 1 : 1})"><a class="page-link">&lt;</a></li>`;
+    let paginationHTML = ``;
+
+    if (page > 1) {
+        paginationHTML += `<li class="page-item" onclick="moveToPage(1)"><a class="page-link">&lt;&lt;</a></li>`;
+    }
+
+    if (page > 1) {
+        paginationHTML += `<li class="page-item" onclick="moveToPage(${page - 1})"><a class="page-link">&lt;</a></li>`;
+    }
 
     // 2. 숫자 버튼들 생성
     for (let i = firstPage; i <= lastPage; i++) {
@@ -144,9 +150,13 @@ const paginationRender = () => {
     }
 
     // 3. 뒤쪽 화살표 버튼들 추가
-    paginationHTML += `
-        <li class="page-item" onclick="moveToPage(${page < totalPages ? page + 1 : totalPages})"><a class="page-link">&gt;</a></li>
-        <li class="page-item" onclick="moveToPage(${totalPages})"><a class="page-link">&gt;&gt;</a></li>`;
+    if (page < totalPages) {
+        paginationHTML += `<li class="page-item" onclick="moveToPage(${page + 1})"><a class="page-link">&gt;</a></li>`;
+    }
+
+    if (page < totalPages) {
+        paginationHTML += `<li class="page-item" onclick="moveToPage(${totalPages})"><a class="page-link">&gt;&gt;</a></li>`;
+    }
 
     document.querySelector(".pagination").innerHTML = paginationHTML;
      
